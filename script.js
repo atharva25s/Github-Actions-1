@@ -80,15 +80,7 @@ const userMessage = [
   
   const synth = window.speechSynthesis;
   
-  function voiceControl(string) {
-    let u = new SpeechSynthesisUtterance(string);
-    u.text = string;
-    u.lang = "en-aus";
-    u.volume = 1;
-    u.rate = 1;
-    u.pitch = 1;
-    synth.speak(u);
-  }
+
   
   function sendMessage() {
     const inputField = document.getElementById("input");
@@ -187,5 +179,4 @@ const userMessage = [
     mainDiv.appendChild(botDiv);
     var scroll = document.getElementById("message-section");
     scroll.scrollTop = scroll.scrollHeight;
-    voiceControl(product);
   }
