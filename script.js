@@ -1,182 +1,92 @@
 const userMessage = [
-    ["hi", "hey", "hello"],
-    ["sure", "yes", "no"],
-    ["are you genious", "are you nerd", "are you intelligent"],
-    ["i hate you", "i dont like you"],
-    ["how are you", "how is life", "how are things", "how are you doing"],
-    ["how is corona", "how is covid 19", "how is covid19 situation"],
-    ["what are you doing", "what is going on", "what is up"],
-    ["how old are you"],
-    ["who are you", "are you human", "are you bot", "are you human or bot"],
-    ["who created you", "who made you", "who is your creator"],
-  
-    [
-      "your name please",
-      "your name",
-      "may i know your name",
-      "what is your name",
-      "what call yourself"
-    ],
-    ["i love you"],
-    ["happy", "good", "fun", "wonderful", "fantastic", "cool", "very good"],
-    ["bad", "bored", "tired"],
-    ["help me", "tell me story", "tell me joke"],
-    ["ah", "ok", "okay", "nice", "welcome"],
-    ["thanks", "thank you"],
-    ["what should i eat today"],
-    ["bro"],
-    ["what", "why", "how", "where", "when"],
-    ["corona", "covid19", "coronavirus"],
-    ["you are funny"],
-    ["i dont know"],
-    ["boring"],
-    ["im tired"]
-  ];
-  const botReply = [
-    ["Hello!", "Hi!", "Hey!", "Hi there!"],
-    ["Okay"],
-    ["Yes I am! "],
-    ["I'm sorry about that. But I like you dude."],
-    [
-      "Fine... how are you?",
-      "Pretty well, how are you?",
-      "Fantastic, how are you?"
-    ],
-    ["Getting better. There?", "Somewhat okay!", "Yeah fine. Better stay home!"],
-  
-    [
-      "Nothing much",
-      "About to go to sleep",
-      "Can you guess?",
-      "I don't know actually"
-    ],
-    ["I am always young."],
-    ["I am just a bot", "I am a bot. What are you?"],
-    ["Sabitha Kuppusamy"],
-    ["I am nameless", "I don't have a name"],
-    ["I love you too", "Me too"],
-    ["Have you ever felt bad?", "Glad to hear it"],
-    ["Why?", "Why? You shouldn't!", "Try watching TV", "Chat with me."],
-    ["What about?", "Once upon a time..."],
-    ["Tell me a story", "Tell me a joke", "Tell me about yourself"],
-    ["You're welcome"],
-    ["Briyani", "Burger", "Sushi", "Pizza"],
-    ["Dude!"],
-    ["Yes?"],
-    ["Please stay home"],
-    ["Glad to hear it"],
-    ["Say something interesting"],
-    ["Sorry for that. Let's chat!"],
-    ["Take some rest, Dude!"]
-  ];
-  
-  const alternative = [
-    "Same here, dude.",
-    "That's cool! Go on...",
-    "Dude...",
-    "Ask something else...",
-    "Hey, I'm listening..."
-  ];
-  
-  const synth = window.speechSynthesis;
-  
+  ["hi", "hey", "hello"],
+  ["sure", "yes", "no"],
+  ["address"],
+  ["facilities provided", "services offered"],
+  ["contact", "phone number", "email"],
+  ["emergency ambulance service", "emergency"],
+  ["name of doctors", "doctors list", "available doctors"],
+  ["appointment booking", "how to book an appointment", "appointment"],
+  ["visiting hours", "hospital timings"],
+  ["insurance accepted", "do you accept insurance"],
+  ["departments available", "specialties"],
+  ["pharmacy availability", "is there a pharmacy", "pharmacy"],
+  ["nearest landmark", "how to reach hospital"],
+  ["covid19 guidelines", "safety measures"],
+];
 
-  
-  function sendMessage() {
-    const inputField = document.getElementById("input");
-    let input = inputField.value.trim();
-    input != "" && output(input);
-    inputField.value = "";
+const botReply = [
+  ["Hello! Welcome to Bharti Hospital. How can I assist you?"],
+  ["Okay! Let me know how I can help."],
+  ["Bharti Hospital is located at Dhankawadi, Pune, Maharashtra, India."],
+  ["We provide emergency care, surgery, maternity, cardiology, orthopedics, and many other healthcare services."],
+  ["You can contact us at +91 9876543210 or email us at contact@bhartihospital.com."],
+  ["We offer a 24/7 emergency ambulance service. Call +91 9876543210 for immediate assistance."],
+  ["Our hospital has expert doctors in various fields, including Dr. A Sharma (Cardiologist), Dr. R Mehta (Orthopedic), and Dr. S Kapoor (Neurologist)."],
+  ["To book an appointment, visit our website www.bhartihospital.com or call +91 9876543210."],
+  ["Our visiting hours are from 10:00 AM to 7:00 PM. Emergency services are available 24/7."],
+  ["Yes, we accept major health insurance policies. Please check with our billing department for more details."],
+  ["We have multiple departments including General Medicine, Surgery, Pediatrics, Cardiology, Neurology, and more."],
+  ["We have an in-house pharmacy that operates 24/7."],
+  ["Our hospital is near Bharati Vidyapeeth, Dhankawadi, Pune."],
+  ["We follow strict COVID-19 guidelines, including mandatory masks, sanitization, and social distancing."],
+];
+
+const alternative = [
+  "I'm not sure about that. Can I help with something else?",
+  "Could you rephrase that?",
+  "I don't have an answer to that. Try asking something about Bharti Hospital!"
+];
+
+function sendMessage() {
+  const inputField = document.getElementById("input");
+  let input = inputField.value.trim();
+  if (input !== "") {
+      output(input);
+      inputField.value = "";
   }
-  document.addEventListener("DOMContentLoaded", () => {
-    const inputField = document.getElementById("input");
-    inputField.addEventListener("keydown", function (e) {
-      if (e.code === "Enter") {
-        let input = inputField.value.trim();
-        input != "" && output(input);
-        inputField.value = "";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const inputField = document.getElementById("input");
+  inputField.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+          sendMessage();
       }
-    });
   });
-  
-  function output(input) {
-    let product;
-  
-    let text = input.toLowerCase().replace(/[^\w\s\d]/gi, "");
-  
-    text = text
-      .replace(/[\W_]/g, " ")
-      .replace(/ a /g, " ")
-      .replace(/i feel /g, "")
-      .replace(/whats/g, "what is")
-      .replace(/please /g, "")
-      .replace(/ please/g, "")
-      .trim();
-  
-    let comparedText = compare(userMessage, botReply, text);
-  
-    product = comparedText
-      ? comparedText
-      : alternative[Math.floor(Math.random() * alternative.length)];
-    addChat(input, product);
-  }
-  
-  function compare(triggerArray, replyArray, string) {
-    let item;
-    for (let x = 0; x < triggerArray.length; x++) {
-      for (let y = 0; y < replyArray.length; y++) {
-        if (triggerArray[x][y] == string) {
-          items = replyArray[x];
-          item = items[Math.floor(Math.random() * items.length)];
-        }
+});
+
+function output(input) {
+  let text = input.toLowerCase().replace(/[^\w\s\d]/gi, "");
+  text = text.replace(/\s+/g, " ").trim();
+
+  let product = compare(userMessage, botReply, text) || alternative[Math.floor(Math.random() * alternative.length)];
+  addChat(input, product);
+}
+
+function compare(triggerArray, replyArray, string) {
+  for (let x = 0; x < triggerArray.length; x++) {
+      if (triggerArray[x].some(keyword => string.includes(keyword))) {
+          let replies = replyArray[x];
+          return replies[Math.floor(Math.random() * replies.length)];
       }
-    }
-    //containMessageCheck(string);
-    if (item) return item;
-    else return containMessageCheck(string);
   }
+  return null;
+}
+
+function addChat(input, product) {
+  const mainDiv = document.getElementById("message-section");
+  let userDiv = document.createElement("div");
+  userDiv.id = "user";
+  userDiv.classList.add("message");
+  userDiv.innerHTML = `<span id="user-response">${input}</span>`;
+  mainDiv.appendChild(userDiv);
+
+  let botDiv = document.createElement("div");
+  botDiv.id = "bot";
+  botDiv.classList.add("message");
+  botDiv.innerHTML = `<span id="bot-response">${product}</span>`;
+  mainDiv.appendChild(botDiv);
   
-  function containMessageCheck(string) {
-    let expectedReply = [
-      [
-        "Good Bye, dude",
-        "Bye, See you!",
-        "Dude, Bye. Take care of your health in this situation."
-      ],
-      ["Good Night, dude", "Have a sound sleep", "Sweet dreams"],
-      ["Have a pleasant evening!", "Good evening too", "Evening!"],
-      ["Good morning, Have a great day!", "Morning, dude!"],
-      ["Good Afternoon", "Noon, dude!", "Afternoon, dude!"]
-    ];
-    let expectedMessage = [
-      ["bye", "tc", "take care"],
-      ["night", "good night"],
-      ["evening", "good evening"],
-      ["morning", "good morning"],
-      ["noon"]
-    ];
-    let item;
-    for (let x = 0; x < expectedMessage.length; x++) {
-      if (expectedMessage[x].includes(string)) {
-        items = expectedReply[x];
-        item = items[Math.floor(Math.random() * items.length)];
-      }
-    }
-    return item;
-  }
-  function addChat(input, product) {
-    const mainDiv = document.getElementById("message-section");
-    let userDiv = document.createElement("div");
-    userDiv.id = "user";
-    userDiv.classList.add("message");
-    userDiv.innerHTML = `<span id="user-response">${input}</span>`;
-    mainDiv.appendChild(userDiv);
-  
-    let botDiv = document.createElement("div");
-    botDiv.id = "bot";
-    botDiv.classList.add("message");
-    botDiv.innerHTML = `<span id="bot-response">${product}</span>`;
-    mainDiv.appendChild(botDiv);
-    var scroll = document.getElementById("message-section");
-    scroll.scrollTop = scroll.scrollHeight;
-  }
+  mainDiv.scrollTop = mainDiv.scrollHeight;
+}
